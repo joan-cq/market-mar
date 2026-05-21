@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras - Market Mar</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <style>
+        body { background-color: #f8f9fa; }
+        
+        /* Botón WhatsApp Flotante */
+        .btn-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: white;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 1.5rem;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .btn-whatsapp:hover {
+            transform: scale(1.1);
+            color: white;
+        }
+
+        /* Estilos de la cabecera */
+        .page-header {
+            background-color: #198754; 
+            color: white;
+            padding: 30px 0 20px;
+            text-align: center;
+        }
+
+        /* Tabla del carrito */
+        .cart-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .qty-input {
+            width: 60px;
+            text-align: center;
+        }
+        
+        .summary-card {
+            background-color: #fff;
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar Reutilizable -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="bi bi-shop me-2"></i>Market Mar
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-toggle="target" aria-controls="navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link text-warning fw-bold" href="ofertas.html">Ofertas Especiales</a></li>
+                    <li class="nav-item"><a class="nav-link" href="corporativo.html">Ventas a Restaurantes</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <a href="carrito.html" class="text-white text-decoration-none position-relative">
+                        <i class="bi bi-cart3 fs-5"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">2</span>
+                    </a>
+                    <a href="login.html" class="btn btn-outline-light btn-sm">Iniciar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header de la Página -->
+    <header class="page-header mb-5">
+        <div class="container">
+            <h1 class="display-6 fw-bold"><i class="bi bi-cart-check me-2"></i>Tu Carrito</h1>
+        </div>
+    </header>
+
+    <section class="container mb-5">
+        <div class="row g-4">
+            <!-- Columna de Productos -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0" style="border-radius: 12px;">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col" class="ps-4">Producto</th>
+                                        <th scope="col">Precio</th>
+                                        <th scope="col">Cantidad (kg/und)</th>
+                                        <th scope="col">Subtotal</th>
+                                        <th scope="col" class="text-center pe-4">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cart-items-container">
+                                    <!-- Los productos se inyectarán aquí mágicamente con JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <a href="productos.html" class="btn btn-outline-success"><i class="bi bi-arrow-left me-2"></i>Seguir comprando</a>
+                </div>
+            </div>
+
+            <!-- Columna de Resumen -->
+            <div class="col-lg-4">
+                <div class="card summary-card p-3">
+                    <div class="card-body">
+                        <h4 class="card-title fw-bold border-bottom pb-3 mb-3">Resumen del Pedido</h4>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Subtotal:</span>
+                            <span class="fw-bold">S/ <span id="summary-subtotal">20.50</span></span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Delivery (Cerro Azul):</span>
+                            <span class="fw-bold">Gratis</span>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="d-flex justify-content-between mb-4">
+                            <h5 class="fw-bold mb-0">Total:</h5>
+                            <h5 class="fw-bold text-success mb-0">S/ <span id="summary-total">24.00</span></h5>
+                        </div>
+
+                        <!-- Botón para enviar pedido por WhatsApp -->
+                        <button class="btn btn-success w-100 py-2 fw-bold mb-2" onclick="sendOrderWhatsApp()">
+                            <i class="bi bi-whatsapp me-2"></i>Pedir por WhatsApp
+                        </button>
+                        
+                        <!-- Botón para pago con pasarela/transferencia -->
+                        <button class="btn btn-outline-secondary w-100 py-2">
+                            <i class="bi bi-credit-card me-2"></i>Pagar con Tarjeta / Yape
+                        </button>
+
+                        <div class="mt-3 text-center">
+                            <small class="text-muted"><i class="bi bi-shield-check me-1"></i>Compra segura y garantizada</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Reutilizable -->
+    <footer class="bg-dark text-white pt-5 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5>Market Mar</h5>
+                    <p class="text-secondary">Mercado Central de Cerro Azul.<br>Calidad y frescura garantizada por nuestra familia.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Enlaces Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="nosotros.html" class="text-secondary text-decoration-none">Sobre Nosotros</a></li>
+                        <li><a href="ofertas.html" class="text-secondary text-decoration-none">Ofertas de la Semana</a></li>
+                        <li><a href="login.html" class="text-secondary text-decoration-none">Mi Cuenta</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Atención al Cliente</h5>
+                    <ul class="list-unstyled">
+                        <li class="text-secondary mb-2"><i class="bi bi-telephone"></i> +51 910 535 496</li>
+                        <li>
+                            <a href="reclamaciones.html" class="text-decoration-none">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Libro_de_Reclamaciones_%28Per%C3%BA%29.png" alt="Libro de Reclamaciones" style="height: 40px; background: white; padding: 2px; border-radius: 5px;">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center text-secondary mt-3 border-top pt-3">
+                <small>&copy; 2026 Market Mar. Todos los derechos reservados.</small>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botón Flotante de WhatsApp -->
+    <a href="https://wa.me/51910535496?text=Hola%20Market%20Mar,%20necesito%20ayuda%20con%20mi%20carrito%20de%20compras." target="_blank" class="btn-whatsapp">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- --- NUEVA LÓGICA DEL CARRITO (LOCALSTORAGE) --- -->
+    <script>
+        const deliveryFee = 0.00;
+
+        // Cargar carrito apenas abre la página
+        document.addEventListener('DOMContentLoaded', loadCart);
+
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('marketMarCart')) || [];
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = ''; // Limpiar la tabla
+            
+            if (cart.length === 0) {
+                container.innerHTML = `<tr><td colspan="5" class="text-center py-5 text-muted">
+                    <i class="bi bi-cart-x fs-1 d-block mb-3"></i>Tu carrito está vacío. <br>
+                    <a href="productos.html" class="btn btn-success mt-3">Ir a comprar</a>
+                </td></tr>`;
+                document.getElementById('summary-subtotal').innerText = '0.00';
+                document.getElementById('summary-total').innerText = '0.00';
+                document.querySelector('.badge').innerText = '0';
+                return;
+            }
+
+            // Dibujar cada producto
+            cart.forEach((item, index) => {
+                const subtotal = (item.price * item.qty).toFixed(2);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="ps-4">
+                        <div class="d-flex align-items-center">
+                            <img src="${item.img}" alt="${item.name}" class="cart-img me-3">
+                            <div>
+                                <h6 class="mb-0 fw-bold">${item.name}</h6>
+                            </div>
+                        </div>
+                    </td>
+                    <td>S/ <span class="item-price">${item.price.toFixed(2)}</span></td>
+                    <td>
+                        <div class="input-group input-group-sm" style="width: 110px;">
+                            <button class="btn btn-outline-secondary btn-minus" type="button" onclick="updateQty(${index}, -1)">-</button>
+                            <input type="number" class="form-control text-center item-qty" value="${item.qty}" min="1" readonly>
+                            <button class="btn btn-outline-secondary btn-plus" type="button" onclick="updateQty(${index}, 1)">+</button>
+                        </div>
+                    </td>
+                    <td class="fw-bold text-success">S/ <span class="item-subtotal">${subtotal}</span></td>
+                    <td class="text-center pe-4">
+                        <button class="btn btn-sm btn-outline-danger" onclick="removeItem(${index})"><i class="bi bi-trash3"></i></button>
+                    </td>
+                `;
+                container.appendChild(row);
+            });
+
+            updateTotals();
+        }
+
+        function updateTotals() {
+            const cart = JSON.parse(localStorage.getItem('marketMarCart')) || [];
+            let subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            
+            document.getElementById('summary-subtotal').innerText = subtotal.toFixed(2);
+            
+            if(subtotal > 0) {
+                document.getElementById('summary-total').innerText = (subtotal + deliveryFee).toFixed(2);
+            } else {
+                document.getElementById('summary-total').innerText = '0.00';
+            }
+            
+            // Actualizar el número rojo de la navegación
+            let totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            const badges = document.querySelectorAll('.badge.bg-danger');
+            badges.forEach(b => b.innerText = totalItems);
+        }
+
+        function updateQty(index, change) {
+            let cart = JSON.parse(localStorage.getItem('marketMarCart')) || [];
+            if (cart[index]) {
+                cart[index].qty += change;
+                if (cart[index].qty < 1) cart[index].qty = 1; // No puede haber 0
+                localStorage.setItem('marketMarCart', JSON.stringify(cart));
+                loadCart(); // Recargar la tabla
+            }
+        }
+
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('marketMarCart')) || [];
+            cart.splice(index, 1); // Quitar del array
+            localStorage.setItem('marketMarCart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function sendOrderWhatsApp() {
+            const cart = JSON.parse(localStorage.getItem('marketMarCart')) || [];
+            if (cart.length === 0) return; // Si no hay nada, no hace nada
+
+            // Crear el mensaje detallado para Doña Carmen
+            let orderText = "🛒 *Hola Market Mar, quiero confirmar mi pedido:*\n\n";
+            cart.forEach(item => {
+                orderText += `▪️ ${item.qty} x ${item.name} (S/ ${(item.price * item.qty).toFixed(2)})\n`;
+            });
+            
+            const total = document.getElementById('summary-total').innerText;
+            orderText += `\n🛵 *Delivery:* S/ ${deliveryFee.toFixed(2)}\n`;
+            orderText += `💰 *Total a Pagar:* S/ ${total}\n\n`;
+            orderText += "¿Me indican los pasos para el pago por Yape o Transferencia? Gracias.";
+
+            const encodedMessage = encodeURIComponent(orderText);
+            window.open(`https://wa.me/51910535496?text=${encodedMessage}`, '_blank');
+        }
+    </script>
+</body>
+</html>

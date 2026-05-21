@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ofertas Especiales - Market Mar</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <style>
+        body { background-color: #f8f9fa; }
+        
+        /* Botón WhatsApp Flotante */
+        .btn-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: white;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 1.5rem;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .btn-whatsapp:hover {
+            transform: scale(1.1);
+            color: white;
+        }
+
+        /* Estilos de la cabecera de ofertas */
+        .page-header {
+            background-color: #dc3545; /* bg-danger para destacar ofertas */
+            color: white;
+            padding: 50px 0 30px;
+            text-align: center;
+            background-image: linear-gradient(45deg, #dc3545 0%, #ff6b6b 100%);
+        }
+
+        /* Tarjetas de Combos y Ofertas */
+        .oferta-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid #ffeeba;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            background-color: #fff;
+        }
+        .oferta-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(220,53,69,0.15) !important;
+        }
+        
+        /* Etiqueta de descuento (Badge flotante) */
+        .discount-badge {
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .oferta-img-wrapper {
+            height: 220px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .oferta-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        .new-price {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #dc3545;
+        }
+
+        /* Temporizador */
+        .timer-box {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 10px;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        .time-unit {
+            display: inline-block;
+            margin: 0 10px;
+            text-align: center;
+        }
+        .time-val { font-size: 1.5rem; font-weight: bold; display: block; }
+        .time-label { font-size: 0.8rem; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar Reutilizable -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="bi bi-shop me-2"></i>Market Mar
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-toggle="target" aria-controls="navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link active text-warning fw-bold" href="ofertas.html">Ofertas Especiales</a></li>
+                    <li class="nav-item"><a class="nav-link" href="corporativo.html">Ventas a Restaurantes</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <a href="carrito.html" class="text-white text-decoration-none position-relative">
+                        <i class="bi bi-cart3 fs-5"></i>
+                        <span id="cart-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                    </a>
+                    <a href="login.html" class="btn btn-outline-light btn-sm">Iniciar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header de la Página -->
+    <header class="page-header shadow-sm">
+        <div class="container">
+            <h1 class="display-5 fw-bold"><i class="bi bi-tag-fill me-2"></i>¡Días Locos en el Mercado!</h1>
+            <p class="lead mb-0">Lleva más pagando menos. ¡Frescura garantizada, precios de locura!</p>
+            
+            <!-- Temporizador Ficticio -->
+            <div class="timer-box mt-4">
+                <p class="mb-1 fw-bold small"><i class="bi bi-stopwatch me-1"></i>LAS OFERTAS TERMINAN EN:</p>
+                <div class="time-unit"><span class="time-val">02</span><span class="time-label">Días</span></div>:
+                <div class="time-unit"><span class="time-val">14</span><span class="time-label">Hrs</span></div>:
+                <div class="time-unit"><span class="time-val">45</span><span class="time-label">Min</span></div>
+            </div>
+        </div>
+    </header>
+
+    <section class="container my-5">
+        
+        <!-- Sección de Combos (Lo más atractivo) -->
+        <h2 class="fw-bold mb-4 border-bottom pb-2 text-danger">Combos de la Semana</h2>
+        <div class="row g-4 mb-5">
+            
+            <!-- Combo 1 -->
+            <div class="col-lg-6">
+                <div class="card h-100 shadow-sm oferta-card">
+                    <div class="discount-badge">-15%</div>
+                    <div class="row g-0 h-100">
+                        <div class="col-md-5 oferta-img-wrapper" style="height: auto;">
+                            <!-- Imagen compuesta o representativa del combo -->
+                            <img src="https://images.unsplash.com/photo-1607305387299-a3d9611cd469?w=400&q=80" alt="Combo Cevichero" style="border-radius: 15px 0 0 15px;">
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body d-flex flex-column h-100">
+                                <h4 class="card-title fw-bold text-dark">El "Combo Cevichero"</h4>
+                                <ul class="list-unstyled text-muted small mb-3 flex-grow-1">
+                                    <li><i class="bi bi-check2-circle text-success me-1"></i> 1 kg Limón Sutil norteño</li>
+                                    <li><i class="bi bi-check2-circle text-success me-1"></i> 1/2 kg Cebolla roja selecta</li>
+                                    <li><i class="bi bi-check2-circle text-success me-1"></i> 1 kg Camote amarillo dulzón</li>
+                                    <li><i class="bi bi-check2-circle text-success me-1"></i> Atado de culantro fresco</li>
+                                </ul>
+                                <div class="d-flex justify-content-between align-items-end mt-auto">
+                                    <div>
+                                        <span class="old-price">S/ 12.00</span><br>
+                                        <span class="new-price">S/ 10.00</span>
+                                    </div>
+                                    <button class="btn btn-danger btn-lg px-4" onclick="addToCart('Combo Cevichero')"><i class="bi bi-cart-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Combo 2 -->
+            <div class="col-lg-6">
+                <div class="card h-100 shadow-sm oferta-card">
+                    <div class="discount-badge">-20%</div>
+                    <div class="row g-0 h-100">
+                        <div class="col-md-5 oferta-img-wrapper" style="height: auto;">
+                            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80" alt="Combo Olla Familiar" style="border-radius: 15px 0 0 15px;">
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body d-flex flex-column h-100">
+                                <h4 class="card-title fw-bold text-dark">Combo "Olla Familiar"</h4>
+                                <ul class="list-unstyled text-muted small mb-3 flex-grow-1">
+                                    <li><i class="bi bi-check2-circle text-success me-1"></i> 2 kg Arroz Extra Faraón</li>
+                                    <li><i class="bi bi-check2-circle text-success me-1"></i> 1 Botella Aceite Primor (1L)</li>
+                                    <li><i class="bi bi-check2-circle text-success me-1"></i> 2 kg Papa Blanca o Amarilla</li>
+                                    <li><i class="bi bi-check2-circle text-success me-1"></i> 1/2 kg Huevos (aprox. 8 und)</li>
+                                </ul>
+                                <div class="d-flex justify-content-between align-items-end mt-auto">
+                                    <div>
+                                        <span class="old-price">S/ 28.50</span><br>
+                                        <span class="new-price">S/ 22.80</span>
+                                    </div>
+                                    <button class="btn btn-danger btn-lg px-4" onclick="addToCart('Combo Olla Familiar')"><i class="bi bi-cart-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Sección de Descuentos Individuales o por Volumen -->
+        <h3 class="fw-bold mb-4 mt-5">Remates del Día <span class="badge bg-warning text-dark ms-2 fs-6">Hasta agotar stock</span></h3>
+        <div class="row g-4">
+            
+            <!-- Remate 1 -->
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="card h-100 shadow-sm oferta-card border-0">
+                    <div class="discount-badge" style="background-color: #fd7e14;">3x2</div>
+                    <div class="oferta-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=400&q=80" alt="Cebolla Roja Malla">
+                    </div>
+                    <div class="card-body text-center d-flex flex-column">
+                        <h5 class="card-title fw-bold">Cebolla Roja (Malla 3kg)</h5>
+                        <p class="small text-muted mb-3">Lleva 3 kilos, paga solo 2. Ideal para guardar.</p>
+                        <div class="mt-auto">
+                            <span class="old-price d-block">S/ 8.40</span>
+                            <span class="new-price d-block mb-2">S/ 5.60</span>
+                            <button class="btn btn-outline-danger w-100 fw-bold" onclick="addToCart('Promo 3x2 Cebolla')">Comprar Promo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Remate 2 -->
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="card h-100 shadow-sm oferta-card border-0">
+                    <div class="discount-badge" style="background-color: #6f42c1;">Saco</div>
+                    <div class="oferta-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80" alt="Saco de Papa">
+                    </div>
+                    <div class="card-body text-center d-flex flex-column">
+                        <h5 class="card-title fw-bold">Saco de Papa Blanca (50kg)</h5>
+                        <p class="small text-muted mb-3">Precio mayorista directo al público. ¡Aprovecha!</p>
+                        <div class="mt-auto">
+                            <span class="old-price d-block">S/ 65.00</span>
+                            <span class="new-price d-block mb-2">S/ 50.00</span>
+                            <button class="btn btn-outline-danger w-100 fw-bold" onclick="addToCart('Saco Papa Blanca')">Comprar Saco</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Remate 3 -->
+             <div class="col-12 col-sm-6 col-md-3">
+                <div class="card h-100 shadow-sm oferta-card border-0">
+                    <div class="discount-badge">-10%</div>
+                    <div class="oferta-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400&q=80" alt="Tomate Cajón">
+                    </div>
+                    <div class="card-body text-center d-flex flex-column">
+                        <h5 class="card-title fw-bold">Tomate Italiano (Por Jabalí)</h5>
+                        <p class="small text-muted mb-3">Aprox 10kg por jaba. Especial para salsas.</p>
+                        <div class="mt-auto">
+                            <span class="old-price d-block">S/ 35.00</span>
+                            <span class="new-price d-block mb-2">S/ 31.50</span>
+                            <button class="btn btn-outline-danger w-100 fw-bold" onclick="addToCart('Jaba de Tomate')">Comprar Jaba</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Remate 4 -->
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="card bg-danger text-white h-100 shadow-sm rounded-4 text-center p-4 d-flex justify-content-center align-items-center">
+                    <div>
+                        <i class="bi bi-whatsapp display-3 mb-3"></i>
+                        <h4 class="fw-bold">¿Tienes un restaurante?</h4>
+                        <p class="small opacity-75">Pregunta por nuestros precios corporativos especiales en volumen.</p>
+                        <a href="corporativo.html" class="btn btn-light text-danger fw-bold rounded-pill mt-2">Ver Info B2B</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Contenedor de Toast (Notificaciones) -->
+    <div class="toast-container position-fixed bottom-0 start-0 p-3" style="z-index: 1055;">
+        <div id="cartToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="bi bi-cart-check-fill me-2"></i> <span id="toastMessage">¡Oferta añadida al carrito!</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Reutilizable -->
+    <footer class="bg-dark text-white pt-5 pb-3 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5>Market Mar</h5>
+                    <p class="text-secondary">Mercado Central de Cerro Azul.<br>Calidad y frescura garantizada por nuestra familia.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Enlaces Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="nosotros.html" class="text-secondary text-decoration-none">Sobre Nosotros</a></li>
+                        <li><a href="ofertas.html" class="text-secondary text-decoration-none">Ofertas de la Semana</a></li>
+                        <li><a href="login.html" class="text-secondary text-decoration-none">Mi Cuenta</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Atención al Cliente</h5>
+                    <ul class="list-unstyled">
+                        <li class="text-secondary mb-2"><i class="bi bi-telephone"></i> +51 910 535 496</li>
+                        <li>
+                            <a href="reclamaciones.html" class="text-decoration-none">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Libro_de_Reclamaciones_%28Per%C3%BA%29.png" alt="Libro de Reclamaciones" style="height: 40px; background: white; padding: 2px; border-radius: 5px;">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center text-secondary mt-3 border-top pt-3">
+                <small>&copy; 2026 Market Mar. Todos los derechos reservados.</small>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botón Flotante de WhatsApp -->
+    <a href="https://wa.me/51910535496?text=Hola%20Market%20Mar,%20estoy%20viendo%20sus%20ofertas%20en%20la%20web." target="_blank" class="btn-whatsapp">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Lógica del Carrito (LocalStorage) -->
+    <script>
+        // Actualizar el numerito rojo del carrito al cargar la página
+        document.addEventListener('DOMContentLoaded', updateCartBadge);
+
+        function updateCartBadge() {
+            let cart = JSON.parse(localStorage.getItem('marketMarCart')) || [];
+            let totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cart-badge').innerText = totalItems;
+        }
+
+        function addToCart(productName) {
+            // Buscar precio e imagen en el DOM basándonos en el nombre de la oferta
+            const cards = document.querySelectorAll('.oferta-card, .card.bg-danger'); // Busca en ambas tarjetas
+            let price = 0, img = '';
+            
+            cards.forEach(card => {
+                const titleElement = card.querySelector('.card-title');
+                if(titleElement && titleElement.innerText.includes(productName)) {
+                    // Buscar el precio nuevo (rebajado)
+                    const priceElement = card.querySelector('.new-price');
+                    if (priceElement) {
+                        const priceText = priceElement.innerText;
+                        // Extraer solo el número del texto "S/ 10.00"
+                        price = parseFloat(priceText.replace('S/', '').trim());
+                    }
+                    
+                    // Buscar la imagen de la oferta
+                    const imgElement = card.querySelector('img');
+                    if(imgElement){
+                         img = imgElement.src;
+                    } else {
+                        // Imagen por defecto si no encuentra (ej: tarjeta de restaurante)
+                         img = 'https://images.unsplash.com/photo-1607305387299-a3d9611cd469?w=400&q=80';
+                    }
+                }
+            });
+
+            // Si por alguna razón no encuentra el precio en el DOM, asignamos uno por defecto temporal (evita errores)
+            if (price === 0) {
+                 if(productName.includes("Combo Cevichero")) price = 10.00;
+                 if(productName.includes("Combo Olla Familiar")) price = 22.80;
+                 if(productName.includes("Promo 3x2 Cebolla")) price = 5.60;
+                 if(productName.includes("Saco Papa Blanca")) price = 50.00;
+                 if(productName.includes("Jaba de Tomate")) price = 31.50;
+            }
+
+            // Guardar en la memoria del navegador (LocalStorage)
+            let cart = JSON.parse(localStorage.getItem('marketMarCart')) || [];
+            let existingItem = cart.find(item => item.name === productName);
+            
+            if (existingItem) {
+                existingItem.qty++;
+            } else {
+                cart.push({ name: productName, price: price, img: img, qty: 1 });
+            }
+            localStorage.setItem('marketMarCart', JSON.stringify(cart));
+
+            // Actualizar la bolita roja
+            updateCartBadge();
+
+            // Mostrar el mensaje bonito emergente (Toast)
+            const toastElement = document.getElementById('cartToast');
+            document.getElementById('toastMessage').innerText = `¡${productName} añadido al carrito!`;
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        }
+    </script>
+</body>
+</html>

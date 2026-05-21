@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión / Registro - Market Mar</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <style>
+        body { 
+            background-color: #f8f9fa; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* Botón WhatsApp Flotante */
+        .btn-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: white;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 1.5rem;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .btn-whatsapp:hover {
+            transform: scale(1.1);
+            color: white;
+        }
+
+        .auth-section {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            padding: 60px 0;
+            background: linear-gradient(rgba(25, 135, 84, 0.8), rgba(33, 37, 41, 0.9)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&q=80') center/cover fixed;
+        }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .nav-pills .nav-link {
+            color: #495057;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 12px;
+            transition: all 0.3s;
+        }
+        .nav-pills .nav-link.active {
+            background-color: #198754;
+            color: white;
+            box-shadow: 0 4px 10px rgba(25, 135, 84, 0.3);
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 1px solid #ced4da;
+            background-color: #f8f9fa;
+        }
+        .form-control:focus {
+            border-color: #198754;
+            box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar Reutilizable -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="bi bi-shop me-2"></i>Market Mar
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-toggle="target" aria-controls="navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros (Misión/FODA)</a></li>
+                    <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link text-warning fw-bold" href="ofertas.html">Ofertas Especiales</a></li>
+                    <li class="nav-item"><a class="nav-link" href="corporativo.html">Ventas a Restaurantes</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <a href="carrito.html" class="text-white text-decoration-none position-relative">
+                        <i class="bi bi-cart3 fs-5"></i>
+                        <span id="cart-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                    </a>
+                    <a href="login.html" class="btn btn-light btn-sm fw-bold text-success">Iniciar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sección principal de Autenticación -->
+    <section class="auth-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    
+                    <div class="text-center text-white mb-4">
+                        <i class="bi bi-person-circle display-4"></i>
+                        <h2 class="fw-bold mt-2">Bienvenido a la Familia</h2>
+                        <p>Inicia sesión o crea tu cuenta para hacer pedidos.</p>
+                    </div>
+
+                    <div class="card auth-card p-4 p-md-5">
+                        <!-- Pestañas (Tabs) -->
+                        <ul class="nav nav-pills nav-justified mb-4" id="authTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="login-tab" data-bs-toggle="pill" data-bs-target="#login" type="button" role="tab">Iniciar Sesión</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="register-tab" data-bs-toggle="pill" data-bs-target="#register" type="button" role="tab">Crear Cuenta</button>
+                            </li>
+                        </ul>
+
+                        <!-- Contenido de las Pestañas -->
+                        <div class="tab-content" id="authTabsContent">
+                            
+                            <!-- Pestaña: Iniciar Sesión -->
+                            <div class="tab-pane fade show active" id="login" role="tabpanel">
+                                <form id="loginForm" onsubmit="handleAuth(event, 'login')">
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-bold text-muted">Correo Electrónico</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope"></i></span>
+                                            <input type="email" class="form-control border-start-0 ps-0" placeholder="tu@correo.com" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label small fw-bold text-muted mb-0">Contraseña</label>
+                                            <a href="#" class="small text-success text-decoration-none">¿Olvidaste tu contraseña?</a>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock"></i></span>
+                                            <input type="password" class="form-control border-start-0 ps-0" placeholder="••••••••" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4 form-check">
+                                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                                        <label class="form-check-label small text-muted" for="rememberMe">Recordar mis datos</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-success w-100 fw-bold py-2 mb-3">Ingresar a mi cuenta</button>
+                                    
+                                    <div class="text-center mt-3">
+                                        <span class="text-muted small">O ingresa con:</span>
+                                        <div class="d-flex justify-content-center gap-2 mt-2">
+                                            <button type="button" class="btn btn-outline-danger btn-sm px-3"><i class="bi bi-google me-2"></i>Google</button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm px-3"><i class="bi bi-facebook me-2"></i>Facebook</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Pestaña: Crear Cuenta -->
+                            <div class="tab-pane fade" id="register" role="tabpanel">
+                                <form id="registerForm" onsubmit="handleAuth(event, 'register')">
+                                    <div class="row g-2 mb-3">
+                                        <div class="col-sm-6">
+                                            <label class="form-label small fw-bold text-muted">Nombres</label>
+                                            <input type="text" class="form-control" placeholder="Ej. María" required>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="form-label small fw-bold text-muted">Apellidos</label>
+                                            <input type="text" class="form-control" placeholder="Ej. Pérez" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-bold text-muted">Celular / WhatsApp</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-whatsapp"></i></span>
+                                            <input type="tel" class="form-control border-start-0 ps-0" placeholder="+51 999 999 999" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-bold text-muted">Correo Electrónico</label>
+                                        <input type="email" class="form-control" placeholder="tu@correo.com" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-bold text-muted">Contraseña</label>
+                                        <input type="password" class="form-control" placeholder="Mínimo 6 caracteres" required>
+                                    </div>
+                                    
+                                    <!-- Opcion B2B integrada en el registro -->
+                                    <div class="mb-4 p-3 bg-light rounded-3 border border-success-subtle">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="isRestaurant" onchange="toggleRestaurantField()">
+                                            <label class="form-check-label fw-bold text-dark" for="isRestaurant">
+                                                ¿Tienes un restaurante o negocio? <i class="bi bi-shop ms-1 text-success"></i>
+                                            </label>
+                                            <div class="small text-muted mt-1">Activa esta opción para acceder a precios mayoristas y cotizaciones exclusivas.</div>
+                                        </div>
+                                        <div class="mt-2 d-none" id="restaurantNameField">
+                                            <input type="text" class="form-control form-control-sm border-success" placeholder="Nombre de tu negocio">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="terms" required>
+                                        <label class="form-check-label small text-muted" for="terms">Acepto los <a href="#" class="text-success">Términos y Condiciones</a> y la Política de Privacidad.</label>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-success w-100 fw-bold py-2">Crear mi cuenta</button>
+                                </form>
+                            </div>
+
+                        </div>
+                        
+                        <!-- Mensaje de éxito oculto (simulación) -->
+                        <div id="authSuccessMessage" class="alert alert-success mt-4 d-none text-center" role="alert">
+                            <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+                            <div id="authMessageText">¡Acceso concedido! Redirigiendo...</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Reutilizable -->
+    <footer class="bg-dark text-white pt-5 pb-3 mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5>Market Mar</h5>
+                    <p class="text-secondary">Mercado Central de Cerro Azul.<br>Calidad y frescura garantizada por nuestra familia.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Enlaces Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="nosotros.html" class="text-secondary text-decoration-none">Sobre Nosotros</a></li>
+                        <li><a href="ofertas.html" class="text-secondary text-decoration-none">Ofertas de la Semana</a></li>
+                        <li><a href="login.html" class="text-secondary text-decoration-none">Mi Cuenta</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Atención al Cliente</h5>
+                    <ul class="list-unstyled">
+                        <li class="text-secondary mb-2"><i class="bi bi-telephone"></i> +51 910 535 496</li>
+                        <li>
+                            <a href="reclamaciones.html" class="text-decoration-none">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Libro_de_Reclamaciones_%28Per%C3%BA%29.png" alt="Libro de Reclamaciones" style="height: 40px; background: white; padding: 2px; border-radius: 5px;">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center text-secondary mt-3 border-top pt-3">
+                <small>&copy; 2026 Market Mar. Todos los derechos reservados.</small>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botón Flotante de WhatsApp -->
+    <a href="https://wa.me/51910535496?text=Hola%20Market%20Mar,%20tengo%20problemas%20para%20acceder%20a%20mi%20cuenta." target="_blank" class="btn-whatsapp">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Mostrar/Ocultar campo de nombre de restaurante en el registro
+        function toggleRestaurantField() {
+            const checkbox = document.getElementById('isRestaurant');
+            const field = document.getElementById('restaurantNameField');
+            if (checkbox.checked) {
+                field.classList.remove('d-none');
+            } else {
+                field.classList.add('d-none');
+            }
+        }
+
+        // Simulación de inicio de sesión o registro
+        function handleAuth(event, type) {
+            event.preventDefault(); // Evita que recargue la página
+            
+            const formsContainer = document.getElementById('authTabsContent');
+            const successDiv = document.getElementById('authSuccessMessage');
+            const messageText = document.getElementById('authMessageText');
+
+            // Ocultar formularios
+            formsContainer.style.display = 'none';
+            document.getElementById('authTabs').style.display = 'none';
+
+            // Mostrar mensaje de éxito según el tipo
+            if (type === 'login') {
+                messageText.innerText = "¡Bienvenido de vuelta! Redirigiendo a tu panel...";
+            } else {
+                messageText.innerText = "¡Cuenta creada con éxito! Bienvenido a la familia Market Mar.";
+            }
+            
+            successDiv.classList.remove('d-none');
+
+            // Simular redirección después de 2 segundos (En un proyecto real, usaríamos window.location.href)
+            setTimeout(() => {
+                window.location.href = 'index.html'; 
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

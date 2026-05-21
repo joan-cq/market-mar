@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventas a Restaurantes - Market Mar</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <style>
+        body { background-color: #f8f9fa; }
+        
+        /* Botón WhatsApp Flotante */
+        .btn-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: white;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 1.5rem;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .btn-whatsapp:hover {
+            transform: scale(1.1);
+            color: white;
+        }
+
+        /* Hero B2B */
+        .hero-b2b {
+            background: linear-gradient(rgba(25, 135, 84, 0.85), rgba(33, 37, 41, 0.9)), url('https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=1200&q=80') center/cover;
+            color: white;
+            padding: 80px 0 60px;
+            border-bottom: 5px solid #ffc107;
+        }
+
+        /* Tarjetas de Beneficios */
+        .benefit-card {
+            border: none;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+            background: #fff;
+            height: 100%;
+        }
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e9ecef;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            color: #198754;
+            margin-bottom: 15px;
+        }
+
+        /* Sección de Proceso */
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            background-color: #198754;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 15px;
+            position: relative;
+            z-index: 2;
+        }
+        .step-line {
+            position: relative;
+        }
+        @media (min-width: 768px) {
+            .step-line::after {
+                content: '';
+                position: absolute;
+                top: 25px;
+                left: 50%;
+                width: 100%;
+                height: 3px;
+                background-color: #dee2e6;
+                z-index: 1;
+            }
+            .step-item:last-child .step-line::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar Reutilizable -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="bi bi-shop me-2"></i>Market Mar
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-toggle="target" aria-controls="navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link text-warning fw-bold" href="ofertas.html">Ofertas Especiales</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="corporativo.html">Ventas a Restaurantes</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <a href="carrito.html" class="text-white text-decoration-none position-relative">
+                        <i class="bi bi-cart3 fs-5"></i>
+                        <span id="cart-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                    </a>
+                    <a href="login.html" class="btn btn-outline-light btn-sm">Iniciar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header de la Página (Hero Corporativo) -->
+    <header class="hero-b2b text-center">
+        <div class="container">
+            <span class="badge bg-warning text-dark mb-3 px-3 py-2 fs-6 rounded-pill">Atención B2B Exclusiva</span>
+            <h1 class="display-4 fw-bold mb-3">Abastecemos el Éxito de tu Cocina</h1>
+            <p class="lead mb-4 mx-auto" style="max-width: 700px;">
+                Proveemos verduras, tubérculos y abarrotes de la más alta calidad a restaurantes, hoteles y cevicherías en todo Cerro Azul y alrededores.
+            </p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="#cotizar" class="btn btn-success btn-lg fw-bold px-4 shadow">Solicitar Cotización</a>
+                <a href="https://wa.me/51910535496?text=Hola%20Don%20José,%20tengo%20un%20restaurante%20y%20deseo%20información%20sobre%20ventas%20al%20por%20mayor." target="_blank" class="btn btn-outline-light btn-lg px-4">
+                    <i class="bi bi-whatsapp me-2"></i>Hablar con Don José
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="container my-5 py-4">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-dark">¿Por qué elegir a Market Mar como tu proveedor?</h2>
+            <p class="text-muted">Entendemos que el tiempo y la calidad son vitales en tu negocio.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Beneficio 1 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card benefit-card p-4 shadow-sm text-center">
+                    <div class="benefit-icon mx-auto">
+                        <i class="bi bi-tags-fill"></i>
+                    </div>
+                    <h5 class="fw-bold">Precios Mayoristas</h5>
+                    <p class="text-muted small mb-0">Estructura de costos especial para negocios. Compra por sacos, jabas o mallas con descuentos significativos.</p>
+                </div>
+            </div>
+            <!-- Beneficio 2 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card benefit-card p-4 shadow-sm text-center">
+                    <div class="benefit-icon mx-auto">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <h5 class="fw-bold">Delivery Directo</h5>
+                    <p class="text-muted small mb-0">Nuestra logística (liderada por Carlos) garantiza que los insumos lleguen directamente a la puerta de tu cocina.</p>
+                </div>
+            </div>
+            <!-- Beneficio 3 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card benefit-card p-4 shadow-sm text-center">
+                    <div class="benefit-icon mx-auto">
+                        <i class="bi bi-check2-square"></i>
+                    </div>
+                    <h5 class="fw-bold">Selección Premium</h5>
+                    <p class="text-muted small mb-0">Doña Carmen selecciona personalmente la mercadería. Garantizamos que no habrá mermas ni productos dañados.</p>
+                </div>
+            </div>
+            <!-- Beneficio 4 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card benefit-card p-4 shadow-sm text-center">
+                    <div class="benefit-icon mx-auto">
+                        <i class="bi bi-headset"></i>
+                    </div>
+                    <h5 class="fw-bold">Atención 24/7</h5>
+                    <p class="text-muted small mb-0">Don José es tu ejecutivo de cuenta. Resoluciones rápidas por WhatsApp ante cualquier emergencia de inventario.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proceso de Trabajo -->
+    <section class="bg-white py-5 border-top border-bottom">
+        <div class="container">
+            <h3 class="text-center fw-bold mb-5">Así de fácil es abastecerte con nosotros</h3>
+            <div class="row text-center">
+                <div class="col-md-4 step-item mb-4 mb-md-0">
+                    <div class="step-line">
+                        <div class="step-circle shadow">1</div>
+                    </div>
+                    <h5 class="fw-bold mt-3">Envíanos tu Lista</h5>
+                    <p class="text-muted small px-3">Mándanos tu requerimiento semanal o diario a través de nuestro formulario web o vía WhatsApp.</p>
+                </div>
+                <div class="col-md-4 step-item mb-4 mb-md-0">
+                    <div class="step-line">
+                        <div class="step-circle shadow">2</div>
+                    </div>
+                    <h5 class="fw-bold mt-3">Cotización Inmediata</h5>
+                    <p class="text-muted small px-3">Te enviamos una cotización con nuestros mejores precios corporativos. Aprobamos y procesamos.</p>
+                </div>
+                <div class="col-md-4 step-item">
+                    <div class="step-line">
+                        <div class="step-circle shadow">3</div>
+                    </div>
+                    <h5 class="fw-bold mt-3">Recepción y Pago</h5>
+                    <p class="text-muted small px-3">Recibe los productos en tu local. Paga mediante transferencia (BCP/Interbank) o Yape empresa.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulario de Cotización -->
+    <section id="cotizar" class="container my-5 py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-success text-white p-4 p-lg-5 d-flex flex-column justify-content-center">
+                            <h3 class="fw-bold mb-4">Hablemos de negocios</h3>
+                            <p class="mb-4 opacity-75">Comunícate con Don José para agendar una visita a tu local, llevarte muestras de nuestra frescura y discutir las tarifas corporativas.</p>
+                            <ul class="list-unstyled mt-auto">
+                                <li class="mb-3"><i class="bi bi-geo-alt-fill me-2 text-warning"></i> Mercado Central, Cerro Azul</li>
+                                <li class="mb-3"><i class="bi bi-envelope-fill me-2 text-warning"></i> corporativo@marketmar.pe</li>
+                                <li><i class="bi bi-telephone-fill me-2 text-warning"></i> +51 910 535 496</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-7 p-4 p-lg-5">
+                            <h4 class="fw-bold text-dark mb-4">Solicitar Cotización</h4>
+                            <form id="b2bForm" onsubmit="submitForm(event)">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">Nombre del Restaurante / Negocio</label>
+                                    <input type="text" class="form-control bg-light" required>
+                                </div>
+                                <div class="row g-3 mb-3">
+                                    <div class="col-sm-6">
+                                        <label class="form-label small fw-bold">Nombre de Contacto</label>
+                                        <input type="text" class="form-control bg-light" required>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="form-label small fw-bold">Celular / WhatsApp</label>
+                                        <input type="tel" class="form-control bg-light" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">Productos de mayor interés</label>
+                                    <select class="form-select bg-light">
+                                        <option selected>Selecciona una categoría principal...</option>
+                                        <option value="1">Tubérculos (Papas, Camote, Yuca)</option>
+                                        <option value="2">Verduras (Cebolla, Tomate, Limón)</option>
+                                        <option value="3">Abarrotes en general</option>
+                                        <option value="4">Abastecimiento Completo</option>
+                                    </select>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label small fw-bold">Mensaje o Requerimiento específico</label>
+                                    <textarea class="form-control bg-light" rows="3" placeholder="Ej: Necesito abastecimiento de limón y cebolla 3 veces por semana..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-success w-100 fw-bold py-2">Enviar Solicitud</button>
+                            </form>
+                            
+                            <!-- Mensaje de éxito oculto -->
+                            <div id="successMessage" class="alert alert-success mt-3 d-none" role="alert">
+                                <i class="bi bi-check-circle-fill me-2"></i> ¡Gracias! Don José se comunicará contigo en breve.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Reutilizable -->
+    <footer class="bg-dark text-white pt-5 pb-3 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5>Market Mar</h5>
+                    <p class="text-secondary">Mercado Central de Cerro Azul.<br>Calidad y frescura garantizada por nuestra familia.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Enlaces Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="nosotros.html" class="text-secondary text-decoration-none">Sobre Nosotros</a></li>
+                        <li><a href="ofertas.html" class="text-secondary text-decoration-none">Ofertas de la Semana</a></li>
+                        <li><a href="login.html" class="text-secondary text-decoration-none">Mi Cuenta</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Atención al Cliente</h5>
+                    <ul class="list-unstyled">
+                        <li class="text-secondary mb-2"><i class="bi bi-telephone"></i> +51 910 535 496</li>
+                        <li>
+                            <a href="reclamaciones.html" class="text-decoration-none">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Libro_de_Reclamaciones_%28Per%C3%BA%29.png" alt="Libro de Reclamaciones" style="height: 40px; background: white; padding: 2px; border-radius: 5px;">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center text-secondary mt-3 border-top pt-3">
+                <small>&copy; 2026 Market Mar. Todos los derechos reservados.</small>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botón Flotante de WhatsApp para B2B -->
+    <a href="https://wa.me/51910535496?text=Hola%20Market%20Mar,%20tengo%20un%20negocio%20y%20quiero%20hacer%20pedidos%20al%20por%20mayor." target="_blank" class="btn-whatsapp">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Lógica simple para simular el envío del formulario B2B
+        function submitForm(event) {
+            event.preventDefault(); // Evita que la página se recargue
+            
+            // Ocultar formulario
+            document.getElementById('b2bForm').classList.add('d-none');
+            
+            // Mostrar mensaje de éxito
+            document.getElementById('successMessage').classList.remove('d-none');
+            
+            // Opcional: Podrías añadir aquí lógica para enviar los datos a WhatsApp directamente
+        }
+    </script>
+</body>
+</html>
